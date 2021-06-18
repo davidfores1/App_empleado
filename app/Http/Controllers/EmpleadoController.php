@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\areas;
 use Illuminate\Http\Request;
+
 
 class EmpleadoController extends Controller
 {
@@ -25,7 +27,9 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view("empleados.create");
+
+        $area = areas::all();
+        return view("empleados.create",compact('area'));
     }
 
     /**
@@ -36,13 +40,25 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'email' => 'required',
+            'sexo' => 'required',
+            'area_id' => 'required|int',
+            'descripcion' => 'required'
+        ]);
+
         $empleado = new Empleado();
         $empleado->create([
             'nombre' =>$request['nombre'],
-            'email' =>$request['email']
+            'email' =>$request['email'],
+            'sexo' =>$request['sexo'],
+            'area_id' =>$request['area_id'],
+            'descripcion' =>$request['descripcion'],
+            'boletin' =>$request['boletin']
         ]);
 
-        return redirect('empleados');
+        return redirect('empleados')->with('crearEmpleado','ok');
     }
 
     /**
@@ -65,8 +81,9 @@ class EmpleadoController extends Controller
     public function edit($id)
     {
         $empleado = Empleado::findOrFail($id);
+        $area = areas::all();
 
-        return view('empleados.edit',compact('empleado'));
+        return view('empleados.edit',compact('empleado','area'));
     }
 
     /**
@@ -80,7 +97,7 @@ class EmpleadoController extends Controller
     {
         $datosEmpleado = request()->except(['_token','_method']);
         Empleado::where('id','=',$id)->update($datosEmpleado);
-        return redirect('empleados');
+        return redirect('empleados')->with('editarEmpleado','ok');
     }
 
     /**
@@ -92,6 +109,6 @@ class EmpleadoController extends Controller
     public function destroy($id)
     {
         Empleado::destroy($id);
-        return redirect('empleados');
+        return redirect('empleados')->with('eliminadoEmpleado','ok');
     }
 }

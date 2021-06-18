@@ -6,7 +6,7 @@
             <div class="col-8">
                 <form method="POST" action="{{ url('empleados') }}">
                     @csrf
-                    @include('empleados.form')
+                    @include('empleados.form',['modo'=>'Crear'])
                 </form>
             </div>
         </div>

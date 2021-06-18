@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row">
         <div class="col-8">
-            <form method="POST" action="{{url('/empleados/'.$empleados->id)}}">
+            <form method="POST" action="{{url('/empleados/'.$empleado->id)}}">
                 @csrf
                 {{method_field('PATCH')}}
-           @include('empleados.form')
+           @include('empleados.form',['modo'=>'Editar'])
             </form>
         </div>
     </div>
