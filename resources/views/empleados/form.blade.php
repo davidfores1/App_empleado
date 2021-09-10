@@ -29,13 +29,13 @@
     <legend class="col-form-label col-sm-2 float-sm-left pt-0">Sexo *</legend>
     <div class="col-sm-10">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="sexo" id="gridRadios1" value="M" checked>
+        <input class="form-check-input" type="radio" name="sexo" id="gridRadios1" value="M" {{ old('$empleado->sexo') === "M" ? 'checked' : (isset($empleado->boletin) && $empleado->sexo === 'M' ? 'checked' : '') }}>
         <label class="form-check-label" for="gridRadios1">
           Masculino
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="sexo" id="gridRadios2" value="F">
+        <input class="form-check-input" type="radio" name="sexo" id="gridRadios2" value="F" {{ old('$empleado->sexo') === "F" ? 'checked' : (isset($empleado->boletin) && $empleado->sexo === 'F' ? 'checked' : '') }}>
         <label class="form-check-label" for="gridRadios2">
             Femenino
         </label>
@@ -53,9 +53,9 @@
     <label for="inputEmail3" class="col-sm-2 col-form-label">Area *</label>
     <div class="col-sm-10">
         <select id="inputState" class="form-control" name="area_id" required>
+        <option value="">Seleccionar...</option>
             @foreach($area as $areas)
-            {{-- <option value="{{$areas->id}}" selected>{{$areas->nombre_area}}</option> --}}
-            <option value="{{ $areas->id }}" @if( $areas->id === $areas->id ) selected @endif >{{ $areas->nombre_area }}</option>
+            <option value="{{ $areas->id }}" {{ old('$empleado->area_id') === $areas->id ? 'selected' : (isset($empleado->area_id) && $empleado->area_id === $areas->id ? 'selected' : '')}} >{{ $areas->nombre_area }}</option>
             @endforeach
         </select>
         @error('area')
@@ -69,7 +69,7 @@
   <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Descripcion*</label>
     <div class="col-sm-10">
-        <textarea required class="form-control" id="exampleFormControlTextarea1" name="descripcion" value="{{ isset($empleado->descripcion) ?$empleado->descripcion : '' }}" rows="3"></textarea>
+        <textarea required class="form-control" id="exampleFormControlTextarea1" name="descripcion" rows="3">{{ isset($empleado->descripcion) ?$empleado->descripcion : '' }}</textarea>
         @error('descripcion')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -81,7 +81,7 @@
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1" value="SI" name="boletin">
+        <input class="form-check-input" name="boletin" type="checkbox" id="gridCheck1" value="SI" {{ old('$empleado->boletin') === "SI" ? 'checked' : (isset($empleado->boletin) && $empleado->boletin === 'SI' ? 'checked' : '') }}>
         <label class="form-check-label" for="gridCheck1">
         Deseo recibir boletin informativo
         </label>

@@ -49,6 +49,15 @@ class EmpleadoController extends Controller
             'descripcion' => 'required'
         ]);
 
+        if($request->boletin != "SI"){
+            
+            $boletinValidado = "NO";
+
+        }else{
+
+            $boletinValidado = "SI";
+        }
+
         $empleado = new Empleado();
         $empleado->create([
             'nombre' =>$request['nombre'],
@@ -56,7 +65,7 @@ class EmpleadoController extends Controller
             'sexo' =>$request['sexo'],
             'area_id' =>$request['area_id'],
             'descripcion' =>$request['descripcion'],
-            'boletin' =>$request['boletin']
+            'boletin' =>$boletinValidado
         ]);
 
         return redirect('empleados')->with('crearEmpleado','ok');

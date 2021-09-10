@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use App\Models\Empleado;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,8 @@ use App\Http\Controllers\EmpleadoController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $empleado = Empleado::search();
+    return view('empleados.index',compact('empleado'));
 });
 
 Route::resource('empleados', EmpleadoController::class);

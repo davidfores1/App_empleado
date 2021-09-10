@@ -36,7 +36,7 @@
 
                                     @csrf
                                     {{ method_field('DELETE') }}
-                                    <button type="submit" onclick="return confirm('Quieres Borrar')" value="Eliminar"><i <i
+                                    <button type="submit" onclick="return confirm('Quieres Borrar')" value="Eliminar"><i
                                             class="fas fa-trash-alt"></i></i></button>
                                 </form>
 
