@@ -105,8 +105,25 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $datosEmpleado = request()->except(['_token','_method']);
-        Empleado::where('id','=',$id)->update($datosEmpleado);
+        if($request->boletin != "SI"){
+            
+            $boletinValidado = "NO";
+
+        }else{
+
+            $boletinValidado = "SI";
+        }
+
+        $empleado = new Empleado();
+
+        Empleado::where('id','=',$id)->update([
+            'nombre' =>$request['nombre'],
+            'email' =>$request['email'],
+            'sexo' =>$request['sexo'],
+            'area_id' =>$request['area_id'],
+            'descripcion' =>$request['descripcion'],
+            'boletin' =>$boletinValidado
+        ]);
         return redirect('empleados')->with('editarEmpleado','ok');
     }
 
