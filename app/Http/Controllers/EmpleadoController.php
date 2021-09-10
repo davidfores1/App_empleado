@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
-use App\Models\areas;
+use App\Models\Area;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 
@@ -29,8 +30,9 @@ class EmpleadoController extends Controller
     public function create()
     {
 
-        $area = areas::all();
-        return view("empleados.create",compact('area'));
+        $area = Area::all();
+        $roles = Role::all();
+        return view("empleados.create",compact('area', 'roles'));
     }
 
     /**
@@ -58,16 +60,17 @@ class EmpleadoController extends Controller
             $boletinValidado = "SI";
         }
 
-        $empleado = new Empleado();
-        $empleado->create([
+        $empleado = Empleado::create([
             'nombre' =>$request['nombre'],
             'email' =>$request['email'],
             'sexo' =>$request['sexo'],
             'area_id' =>$request['area_id'],
             'descripcion' =>$request['descripcion'],
             'boletin' =>$boletinValidado
-        ]);
 
+        ]);    
+        $empleado->rolesM()->sync($request->get('id'));
+        
         return redirect('empleados')->with('crearEmpleado','ok');
     }
 
@@ -91,9 +94,14 @@ class EmpleadoController extends Controller
     public function edit($id)
     {
         $empleado = Empleado::findOrFail($id);
-        $area = areas::all();
+        $area = Area::all();
+        $roles = Role::all();
 
-        return view('empleados.edit',compact('empleado','area'));
+        return view('empleados.edit',[
+            'empleado' => $empleado,
+            'area' => $area,
+            'roles' => $roles 
+        ]);
     }
 
     /**
@@ -114,9 +122,7 @@ class EmpleadoController extends Controller
             $boletinValidado = "SI";
         }
 
-        $empleado = new Empleado();
-
-        Empleado::where('id','=',$id)->update([
+        $empleado = Empleado::where('id','=',$id)->update([
             'nombre' =>$request['nombre'],
             'email' =>$request['email'],
             'sexo' =>$request['sexo'],
@@ -124,6 +130,7 @@ class EmpleadoController extends Controller
             'descripcion' =>$request['descripcion'],
             'boletin' =>$boletinValidado
         ]);
+
         return redirect('empleados')->with('editarEmpleado','ok');
     }
 

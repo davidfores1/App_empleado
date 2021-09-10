@@ -10,6 +10,8 @@ class Empleado extends Model
 {
     use HasFactory;
 
+    protected $table = 'empleados';
+
     protected $fillable = [
         'id',
         'nombre',
@@ -19,6 +21,11 @@ class Empleado extends Model
         'boletin',
         'descripcion',
     ];
+
+    public function rolesM(){
+
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
 
     public static function search(){
 
