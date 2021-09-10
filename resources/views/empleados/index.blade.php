@@ -25,7 +25,7 @@
                             <td>{{ $empleados->nombre }}</td>
                             <td>{{ $empleados->email }}</td>
                             <td>{{ $empleados->sexo }}</td>
-                            <td>{{ $empleados->area_id }}</td>
+                            <td>{{ $empleados->nombre_area }}</td>
                             <td>{{ $empleados->boletin }}</td>
                             <td style="padding: 5px 0px 0px 0px">
 

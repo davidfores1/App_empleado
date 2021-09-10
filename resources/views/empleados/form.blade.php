@@ -54,8 +54,8 @@
     <div class="col-sm-10">
         <select id="inputState" class="form-control" name="area_id" required>
             @foreach($area as $areas)
-            {{-- <option value="{{$areas->id}}" selected>{{$areas->nombre}}</option> --}}
-            <option value="{{ $areas->id }}" @if( $areas->id === $areas->id ) selected @endif >{{ $areas->nombre }}</option>
+            {{-- <option value="{{$areas->id}}" selected>{{$areas->nombre_area}}</option> --}}
+            <option value="{{ $areas->id }}" @if( $areas->id === $areas->id ) selected @endif >{{ $areas->nombre_area }}</option>
             @endforeach
         </select>
         @error('area')

@@ -16,7 +16,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleado = Empleado::all();
+        $empleado = Empleado::search();
+        //dd($empleado);
         return view("empleados.index",compact('empleado'));
     }
 
