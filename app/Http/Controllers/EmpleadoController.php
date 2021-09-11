@@ -32,7 +32,12 @@ class EmpleadoController extends Controller
 
         $area = Area::all();
         $roles = Role::all();
-        return view("empleados.create",compact('area', 'roles'));
+        $roles1 = [0];
+        return view("empleados.create",[
+            'area' => $area,
+            'roles1' => $roles1,
+            'roles' => $roles,
+        ]);
     }
 
     /**
@@ -91,16 +96,24 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Empleado $empleado)
     {
-        $empleado = Empleado::findOrFail($id);
+        $rolesM = []; 
+
+         foreach($empleado->rolesM as $rol){
+          
+            $rolesM[] = $rol->id;
+
+         }
+
         $area = Area::all();
-        $roles = Role::all();
+        $roles = Role::get();
 
         return view('empleados.edit',[
             'empleado' => $empleado,
             'area' => $area,
-            'roles' => $roles 
+            'roles1' => $rolesM,
+            'roles' => $roles
         ]);
     }
 
@@ -111,7 +124,7 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, Empleado $empleado)
     {
         if($request->boletin != "SI"){
             
@@ -122,7 +135,7 @@ class EmpleadoController extends Controller
             $boletinValidado = "SI";
         }
 
-        $empleado = Empleado::where('id','=',$id)->update([
+        $empleado->update([
             'nombre' =>$request['nombre'],
             'email' =>$request['email'],
             'sexo' =>$request['sexo'],
@@ -131,6 +144,7 @@ class EmpleadoController extends Controller
             'boletin' =>$boletinValidado
         ]);
 
+        $empleado->rolesM()->sync($request->get('id'));
         return redirect('empleados')->with('editarEmpleado','ok');
     }
 

@@ -76,9 +76,12 @@
     <label for="inputPassword3" class="col-sm-2 col-form-label">Roles *</label>
     <div class="col-sm-10">
         @foreach($roles as $rol)
+
         <div class="form-check">
+        @foreach($roles1 as $rol1)
             <input class="form-check-input" name="id[]" type="checkbox" id="gridCheck1" value="{{$rol->id}}"
-                {{ old('$rol->id') === "$rol->id" ? 'checked' : (isset($rol->$rol->id) && $rol->$rol->id === '$rol->id' ? 'checked' : '') }}>
+            @if($rol->id == $rol1) checked @break @endif>
+                @endforeach
             <label class="form-check-label" for="gridCheck1">
                 {{ $rol->nombre_rol }}
             </label>
