@@ -23,3 +23,4 @@ Route::get('/', function () {
 Route::resource('empleados', EmpleadoController::class);
 Route::get('crear', [EmpleadoController::class, 'create']);
 Route::get('inicio', [EmpleadoController::class, 'index']);
+Route::get('/show/{empleado}', [EmpleadoController::class, 'show'])->name('show');

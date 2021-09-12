@@ -8,13 +8,14 @@
 
         <div class="col-12">
             <table class="table table-hover">
-                <thead class="thead-dark">
+                <thead class="table-secondary">
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Email</th>
                         <th scope="col">Sexo</th>
                         <th scope="col">Area</th>
                         <th scope="col">Boletin</th>
+                        <th scope="col">Roles</th>
                         <th scope="col">Modificar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -22,11 +23,12 @@
                 <tbody>
                     @foreach ($empleado as $empleados)
                         <tr>
-                            <td>{{ $empleados->nombre }}</td>
+                            <td>{{ $empleados->nombre }}</a></td>
                             <td>{{ $empleados->email }}</td>
                             <td>{{ $empleados->sexo }}</td>
                             <td>{{ $empleados->nombre_area }}</td>
                             <td>{{ $empleados->boletin }}</td>
+                            <td><a href="{{route('show', $empleados->id)}}"><i class="far fa-eye"></i></a></td>
                             <td style="padding: 5px 0px 0px 0px">
 
                                 <a href="{{ url('/empleados/' . $empleados->id . '/edit') }}"><i class="fas fa-edit"></i></a>

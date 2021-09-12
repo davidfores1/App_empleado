@@ -85,8 +85,21 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Empleado $empleado)
     {
+
+       $rolesM = [];
+       
+       foreach($empleado->rolesM as $rol){
+         
+        $rolesM[] = $rol->nombre_rol;
+
+       }
+
+       return view('empleados.show',[
+        'rolesM' => $rolesM,
+        'empleado' => $empleado
+    ]);
 
     }
 
