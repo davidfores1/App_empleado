@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-06-2021 a las 21:55:53
--- Versión del servidor: 10.4.14-MariaDB
--- Versión de PHP: 7.4.11
+-- Tiempo de generación: 14-09-2021 a las 06:23:09
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 7.4.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `areas` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -38,10 +38,11 @@ CREATE TABLE `areas` (
 -- Volcado de datos para la tabla `areas`
 --
 
-INSERT INTO `areas` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-(1, 'Ventas', NULL, NULL),
-(2, 'Calidad', NULL, NULL),
-(3, 'Producción ', NULL, NULL);
+INSERT INTO `areas` (`id`, `nombre_area`, `created_at`, `updated_at`) VALUES
+(1, 'Edificio Administrativo', NULL, NULL),
+(2, 'Bodega repuestos', NULL, NULL),
+(3, 'Bodega de aluminio', NULL, NULL),
+(4, 'Ensamble', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -55,7 +56,7 @@ CREATE TABLE `empleados` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sexo` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `area_id` bigint(20) UNSIGNED NOT NULL,
-  `boletin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `boletin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -66,21 +67,29 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id`, `nombre`, `email`, `sexo`, `area_id`, `boletin`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'David Forero', 'david717@hotmail.es', 'M', 3, 'SI', 'pruebass', NULL, '2021-06-19 00:21:15'),
-(3, 'Prueba', 'prueba@gmail.com', 'M', 2, 'SI', 'Prueba2', '2021-06-18 23:57:36', '2021-06-18 23:57:36');
+(1, 'David Forero', 'david717@hotmail.es', 'M', 2, 'SI', 'Persona de liderar procesos y generar reportes', '2021-09-13 21:09:17', '2021-09-13 21:09:17');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empleado_rols`
+-- Estructura de tabla para la tabla `empleado_role`
 --
 
-CREATE TABLE `empleado_rols` (
-  `rol_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE `empleado_role` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `empleado_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `empleado_role`
+--
+
+INSERT INTO `empleado_role` (`id`, `empleado_id`, `role_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2021-09-13 21:09:17', '2021-09-13 21:09:17'),
+(2, 1, 2, '2021-09-13 21:09:17', '2021-09-13 21:09:17');
 
 -- --------------------------------------------------------
 
@@ -118,10 +127,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2021_06_18_161608_create_areas_table', 1),
-(5, '2021_06_18_161843_create_roles_table', 1),
-(6, '2021_06_18_160318_create_empleados_table', 2),
-(7, '2021_06_18_162003_create_empleado_rols_table', 2);
+(4, '2021_06_17_161608_create_areas_table', 1),
+(5, '2021_06_18_160318_create_empleados_table', 1),
+(6, '2021_06_18_161843_create_roles_table', 1),
+(7, '2021_06_18_162003_create_empleado_role_table', 1);
 
 -- --------------------------------------------------------
 
@@ -143,7 +152,7 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre_rol` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -152,10 +161,14 @@ CREATE TABLE `roles` (
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-(1, 'Profesional de proyectos - Desarrollador', NULL, NULL),
-(2, 'Gerente estratégico ', NULL, NULL),
-(3, 'Auxiliar administrativo', NULL, NULL);
+INSERT INTO `roles` (`id`, `nombre_rol`, `created_at`, `updated_at`) VALUES
+(1, 'Gestión Administrativa', NULL, NULL),
+(2, 'Reportes', NULL, NULL),
+(3, 'Facturación', NULL, NULL),
+(4, 'Inventario', NULL, NULL),
+(5, 'Packing', NULL, NULL),
+(6, 'Picking ', NULL, NULL),
+(7, 'Ensamble', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -192,11 +205,12 @@ ALTER TABLE `empleados`
   ADD KEY `empleados_area_id_foreign` (`area_id`);
 
 --
--- Indices de la tabla `empleado_rols`
+-- Indices de la tabla `empleado_role`
 --
-ALTER TABLE `empleado_rols`
-  ADD KEY `empleado_rols_rol_id_foreign` (`rol_id`),
-  ADD KEY `empleado_rols_empleado_id_foreign` (`empleado_id`);
+ALTER TABLE `empleado_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empleado_role_empleado_id_foreign` (`empleado_id`),
+  ADD KEY `empleado_role_role_id_foreign` (`role_id`);
 
 --
 -- Indices de la tabla `failed_jobs`
@@ -238,13 +252,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `empleado_role`
+--
+ALTER TABLE `empleado_role`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -262,7 +282,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
@@ -281,11 +301,11 @@ ALTER TABLE `empleados`
   ADD CONSTRAINT `empleados_area_id_foreign` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`);
 
 --
--- Filtros para la tabla `empleado_rols`
+-- Filtros para la tabla `empleado_role`
 --
-ALTER TABLE `empleado_rols`
-  ADD CONSTRAINT `empleado_rols_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
-  ADD CONSTRAINT `empleado_rols_rol_id_foreign` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
+ALTER TABLE `empleado_role`
+  ADD CONSTRAINT `empleado_role_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `empleado_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
