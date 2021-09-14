@@ -38,6 +38,7 @@ Por último, ejecutamos las migraciones para que se generen las tablas con:<br>
 php artisan migrate<br>
 
 <h3>[Nota]:</h3>
+realizar insert de roles y area del archivo app_empleados.sql adjunto 
 Si tuvieramos que incluir o crear nuevas migraciones utilizaríamos:<br>
 php artisan migrate:refresh <br>
 php artisan migrate:fresh  //borra y crea todas las tablas de nuevo
